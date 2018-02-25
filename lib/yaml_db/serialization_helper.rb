@@ -85,10 +85,11 @@ module YamlDb
         if column_names.nil?
           return
         end
-        quoted_column_names = column_names.map { |column| ActiveRecord::Base.connection.quote_column_name(column) }.join(',')
         quoted_table_name = Utils.quote_table(table)
+        quoted_column_names_indexes = column_names.map.with_index{ |column, i| ActiveRecord::Base.connection.column_exists?(quoted_table_name, ActiveRecord::Base.connection.quote_column_name(column)) ? i : -1 }.select{ |i| i > -1 }
+        quoted_column_names = quoted_column_names_indexes.map{ |i| column = column_names[i]; ActiveRecord::Base.connection.quote_column_name(column)}.join(',')
         records.each do |record|
-          quoted_values = record.map{|c| ActiveRecord::Base.connection.quote(c)}.join(',')
+          quoted_values = quoted_column_names_indexes.map{ |i| c = record[i]; ActiveRecord::Base.connection.quote(c)}.join(',')
           ActiveRecord::Base.connection.execute("INSERT INTO #{quoted_table_name} (#{quoted_column_names}) VALUES (#{quoted_values})")
         end
       end
