@@ -86,7 +86,9 @@ module YamlDb
           return
         end
         quoted_table_name = Utils.quote_table(table)
-        quoted_column_names_indexes = column_names.map.with_index{ |column, i| ActiveRecord::Base.connection.column_exists?(quoted_table_name, ActiveRecord::Base.connection.quote_column_name(column)) ? i : -1 }.select{ |i| i > -1 }
+        puts quoted_table_name
+        puts column_names
+        quoted_column_names_indexes = column_names.map.with_index{ |column, i| puts column; ActiveRecord::Base.connection.column_exists?(quoted_table_name, ActiveRecord::Base.connection.quote_column_name(column)) ? i : -1 }.select{ |i| i > -1 }
         quoted_column_names = quoted_column_names_indexes.map{ |i| column = column_names[i]; ActiveRecord::Base.connection.quote_column_name(column)}.join(',')
         records.each do |record|
           quoted_values = quoted_column_names_indexes.map{ |i| c = record[i]; ActiveRecord::Base.connection.quote(c)}.join(',')
