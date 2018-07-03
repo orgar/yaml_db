@@ -54,6 +54,11 @@ module YamlDb
         Dump.dump_table(@io, 'mytable')
       end
 
+      it 'does not dump table that is excluded' do
+        stub_const('ENV', 'exclude' => "mytable")
+        expect(Dump.tables).to eq([])
+      end
+
       it "does not dump a table's contents when the record count is zero" do
         allow(Dump).to receive(:table_record_count).with('mytable').and_return(0)
         expect(Dump).not_to receive(:dump_table_columns)
