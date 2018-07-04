@@ -165,26 +165,11 @@ module YamlDb
 
       end
 
-      def self.tables=(tables)
-        @@tables = tables
-      end
-
       def self.tables
         response = ActiveRecord::Base.connection.tables.reject { |table| ['schema_info', 'schema_migrations'].include?(table) }.sort
-        @@tables ||= response
         excludes = ( ENV["exclude"] || "" ).split(",")
-        if excludes.any?
-          return (response - excludes) 
-        else
-          @@tables ||= response
-        end
-        # @@tables ||= ActiveRecord::Base.connection.tables.reject { |table| ['schema_info', 'schema_migrations'].include?(table) }.sort
-        # # ActiveRecord::Base.connection.tables.reject { |table| ['schema_info', 'schema_migrations'].include?(table) }.sort
-        #
-        # response = ActiveRecord::Base.connection.tables.reject { |table| ['schema_info', 'schema_migrations'].include?(table) }
-        #
-        #
-        # return (response - excludes)
+        includes = ( ENV["includes"] || "" ).split(",")
+        includes.any? ? (response && includes) : (response - excludes)
       end
 
       def self.dump_table(io, table)

@@ -4,11 +4,6 @@ module YamlDb
       SerializationHelper::Base.new(helper).dump(db_dump_data_file(helper.extension))
     end
 
-    def self.data_dump_tables_dir_task(tables)
-      helper.dumper.tables = tables
-      data_dump_dir_task
-    end
-
     def self.data_dump_dir_task
       dir = ENV['dir'] || default_dir_name
       SerializationHelper::Base.new(helper).dump_to_dir(dump_dir("/#{dir}"))
@@ -16,11 +11,6 @@ module YamlDb
 
     def self.data_load_task
       SerializationHelper::Base.new(helper).load(db_dump_data_file(helper.extension))
-    end
-
-    def self.data_load_tables_dir_task(tables)
-      helper.dumper.tables = tables
-      data_load_dir_task
     end
 
     def self.data_load_dir_task

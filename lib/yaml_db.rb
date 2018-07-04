@@ -58,8 +58,14 @@ module YamlDb
 
   class Load < SerializationHelper::Load
     def self.load_documents(io, truncate = true)
+        excludes = ( ENV["exclude"] || "" ).split(",")
+        includes = ( ENV["include"] || "" ).split(",")
+
         YAML.load_stream(io) do |ydoc|
-          ydoc.keys.each do |table_name|
+          all_tables=ydoc.keys
+          tables_for_run=(includes.any? ? (all_tables && includes) : (all_tables - excludes))
+          tables_for_run.each do |table_name|
+            p "Table : #{table_name}"
             next if ydoc[table_name].nil?
             load_table(table_name, ydoc[table_name], truncate)
           end
