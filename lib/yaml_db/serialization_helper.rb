@@ -90,6 +90,8 @@ module YamlDb
         quoted_column_names = quoted_column_names_indexes.map{ |i| column = column_names[i]; ActiveRecord::Base.connection.quote_column_name(column)}.join(',')
         records.each do |record|
           quoted_values = quoted_column_names_indexes.map{ |i| c = record[i]; ActiveRecord::Base.connection.quote(c)}.join(',')
+          p 1111111111111
+          p "INSERT INTO #{quoted_table_name} (#{quoted_column_names}) VALUES (#{quoted_values})"
           ActiveRecord::Base.connection.execute("INSERT INTO #{quoted_table_name} (#{quoted_column_names}) VALUES (#{quoted_values})")
         end
       end
