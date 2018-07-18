@@ -67,9 +67,7 @@ module YamlDb
           p tables_for_run
           tables_for_run.each do |table_name|
             p "Table : #{table_name}"
-            p ydoc[table_name].nil?
             next if ydoc[table_name].nil?
-            p "about to load"
             load_table(table_name, ydoc[table_name], truncate)
           end
         end

@@ -154,13 +154,6 @@ module YamlDb
       end
 
       def self.dump(io)
-        p "2222222222 im in dump"
-        p tables
-        # excludes = ( ENV["exclude"] || "" ).split(",")
-        # includes = ( ENV["includes"] || "" ).split(",")
-        # # tables = includes.any? ? (response && includes) : (response - excludes)
-        # p tables
-        # exit
         tables.each do |table|
           before_table(io, table)
           dump_table(io, table)
