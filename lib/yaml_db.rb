@@ -64,8 +64,8 @@ module YamlDb
         YAML.load_stream(io) do |ydoc|
           all_tables=ydoc.keys
           tables_for_run=(includes.any? ? (all_tables && includes) : (all_tables - excludes))
-          # p tables_for_run
-          # exit
+          p tables_for_run
+          exit
 
           tables_for_run.each do |table_name|
             p "Table : #{table_name}"
