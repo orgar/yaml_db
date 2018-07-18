@@ -72,7 +72,7 @@ module YamlDb
         # end
       end
 
-      def self.load_table(table, data, truncate = true)
+      def self.load_table(table, data, truncate = false)
         column_names = data['columns']
         if truncate
           truncate_table(table)
