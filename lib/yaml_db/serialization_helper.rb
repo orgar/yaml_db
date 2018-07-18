@@ -73,6 +73,8 @@ module YamlDb
       end
 
       def self.load_table(table, data, truncate = true)
+        p 2222222222222
+        p "in self.load_table"
         column_names = data['columns']
         if truncate
           truncate_table(table)
@@ -82,12 +84,17 @@ module YamlDb
       end
 
       def self.load_records(table, column_names, records)
+        p "333333333"
+        p "in self.load_records"
         if column_names.nil?
+          p "bye bye im return"
           return
         end
         quoted_table_name = Utils.quote_table(table)
         quoted_column_names_indexes = column_names.map.with_index{ |column, i| ActiveRecord::Base.connection.column_exists?(quoted_table_name, column) ? i : -1 }.select{ |i| i > -1}
         quoted_column_names = quoted_column_names_indexes.map{ |i| column = column_names[i]; ActiveRecord::Base.connection.quote_column_name(column)}.join(',')
+        p "444444444444"
+        p records.count
         records.each do |record|
           quoted_values = quoted_column_names_indexes.map{ |i| c = record[i]; ActiveRecord::Base.connection.quote(c)}.join(',')
           p 1111111111111
@@ -156,8 +163,8 @@ module YamlDb
       end
 
       def self.dump(io)
-        # p "2222222222 im in dump"
-        # p tables
+        p "2222222222 im in dump"
+        p tables
         # excludes = ( ENV["exclude"] || "" ).split(",")
         # includes = ( ENV["includes"] || "" ).split(",")
         # # tables = includes.any? ? (response && includes) : (response - excludes)

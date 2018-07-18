@@ -45,8 +45,8 @@ module YamlDb
       end
 
       def self.dump(io)
-        # p "in dump 1111111"
-        # p tables
+        p "in dump 1111111"
+        p tables
         # raise "132465"
         tables.each do |table|
           before_table(io, table)
