@@ -70,7 +70,7 @@ module YamlDb
           tables_for_run.each do |table_name|
             p "Table : #{table_name}"
             next if ydoc[table_name].nil?
-            load_table(table_name, ydoc[table_name], truncate)
+            load_table(table_name, ydoc[table_name], false)
           end
         end
     end
