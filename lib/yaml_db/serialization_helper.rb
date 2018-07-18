@@ -65,11 +65,11 @@ module YamlDb
       end
 
       def self.truncate_table(table)
-        begin
+        # begin
           ActiveRecord::Base.connection.execute("TRUNCATE #{Utils.quote_table(table)}")
-        rescue Exception
-          ActiveRecord::Base.connection.execute("DELETE FROM #{Utils.quote_table(table)}")
-        end
+        # rescue Exception
+        #   ActiveRecord::Base.connection.execute("DELETE FROM #{Utils.quote_table(table)}")
+        # end
       end
 
       def self.load_table(table, data, truncate = true)
